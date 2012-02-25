@@ -16,12 +16,24 @@ module Globalize
         extend  ClassMethods, Migration
 
         translation_class.table_name = options[:table_name] if translation_class.table_name.blank?
+        
+    # Add possibility to pass additional options to the has_many association
+        
+        association_options = {
+          :class_name  => translation_class.name,
+          :foreign_key => class_name.foreign_key,
+          :dependent   => :destroy,
+          :extend      => HasManyExtensions
+        }
+        
+        if options[:association]
+          association_options = options[:association].merge(association_options)
+        end
 
-        has_many :translations, :class_name  => translation_class.name,
-                                :foreign_key => class_name.foreign_key,
-                                :dependent   => :destroy,
-                                :extend      => HasManyExtensions
-
+        has_many :translations, association_options
+        
+    # End modif
+        
         after_create :save_translations!
         after_update :save_translations!
 
