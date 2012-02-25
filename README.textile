@@ -120,6 +120,12 @@ expects.  See the paper_trail README for more details.
 
 Also, please see the tests in test/globalize3/versioning_test.rb for some current gotchas.
 
+h2. Options for the has_many association
+
+If you want to pass further options to the has_many association that gets created, you can pass an @:association@ option to the @translates@ method.
+
+<pre><code>translates :title, :content, :association => {:autosave => true}</code></pre>
+
 h2. I18n fallbacks for empty translations
 
 It is possible to enable fallbacks for empty translations. It will depend on the configuration setting you have set for I18n translations in your Rails config.
